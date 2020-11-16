@@ -1,0 +1,112 @@
+import rsa
+import base64
+from hashlib import md5
+
+
+# def passwd_gen( pwd, salt ):
+#     m = md5()
+#     pwd_gen = '%s-%s'%(base64.encodebytes(pwd.encode('utf-8')), salt)
+#     m.update(pwd_gen.encode('utf-8'))
+#     return m.hexdigest()
+
+
+# 加密类
+class Encryption(object):
+    def __init__(self):
+        self.pubkey = ''
+        self.privkey = ''
+
+    def generate(self):
+        # 生成密钥
+        (self.pubkey, self.privkey) = rsa.newkeys(1024)
+
+    # 保存密钥
+    def save_keys(self):
+        # 保存密钥
+        with open('public.pem', 'w+') as f:
+            f.write(self.pubkey.save_pkcs1().decode())
+
+        with open('private.pem', 'w+') as f:
+            f.write(self.privkey.save_pkcs1().decode())
+
+    # 导入密钥
+    def load_publickey(self, path):
+        # 导入密钥
+        path = path+'/public.pem'
+        with open(path, 'r') as f:
+            self.pubkey = rsa.PublicKey.load_pkcs1(f.read().encode())
+
+    def load_privatekey(self):
+        with open('private.pem', 'r') as f:
+            self.privkey = rsa.PrivateKey.load_pkcs1(f.read().encode())
+
+    def encrypt(self, msg):
+        # 用事先给的公钥对明文加密，得到密文
+        crypto_text = rsa.encrypt(msg.encode(), self.pubkey)
+        return crypto_text
+
+    def decrypt(self, encrypted_msg):
+        text = rsa.decrypt(encrypted_msg, self.privkey).decode()
+        return text
+
+
+if __name__ == '__main__':
+    encryptor = Encryption()
+    encryptor.generate()
+    print(encryptor.pubkey.save_pkcs1().decode())
+    encrypted_msg = encryptor.encrypt('fuck u')
+    print(encrypted_msg)
+    text = encryptor.decrypt(encrypted_msg)
+    print(text)
+
+
+
+
+
+
+# '''
+# TODO 发送密文
+# '''
+#
+# # email在网络传输中 。。。（各种数据被抓包、邮箱密码泄露）
+# # 没办法，还是被有心人看到了这封email:
+# print(crypto_email_text)  # 什么鬼？看不懂啊！
+#
+#
+# # 用自己的私钥对收到的密文进行解密，就可得到明文
+# message = rsa.decrypt(crypto_email_text, privkey).decode()
+#
+# # 然后，就可以看到明文
+# print(message)
+
+
+
+
+
+
+
+
+
+# =================================
+# 场景二：身份确认问题
+# 为了开拓市场，公司经理分派了一群业务员到各地考察商机。
+# 在这过程中，公司经理常常通过email向业务员下达重要指令
+# 然而，网络是及其不安全的！譬如：数据包被修改、邮箱密码泄露...
+# 商业竞争对手可以通过各种手段伪造/修改公司经理的重要指令！
+#
+# 话说这天早上，业务员照常打开邮箱，发现公司经理的一封email：命令他马上回国。
+# 不对啊。昨天说要在这边扩大业务，怎么今天就变了？
+# 这封email是公司经理本人发的吗？
+# 怎么办？
+#
+# 没错！聪明的您一定也想到了：签名。
+# =================================
+
+# # 明文：公司经理的指令
+# message = '这是重要指令：...'
+#
+# # 公司经理私钥签名
+# crypto_email_text = rsa.sign(message.encode(), privkey, 'SHA-1')
+#
+# # 业务员同时收到指令明文、密文，然后用公钥验证，进行身份确认
+# rsa.verify(message.encode(), crypto_email_text, pubkey)

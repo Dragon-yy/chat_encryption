@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block content %}
+     {% if not current_user.is_authenticated %}
+        <script type="text/javascript">
+            console.log('unauthenticated')
+            window.location.href = "{{ url_for('login.login') }}";
+        </script>
+    {% endif %}
+        <div class="container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-body">
+        <h1>You are not authorized (401)</h1>
+        <p>Please check your account</p>
+        <pre>
+________
+\______ \____________     ____   ____   ____
+ |    |  \_  __ \__  \   / ___\ /  _ \ /    \
+ |    `   \  | \// __ \_/ /_/  >  (_) )   |  \
+/_______  /__|  (____  /\___  / \____/|___|  /
+        \/           \//_____/             \/
+        </pre>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

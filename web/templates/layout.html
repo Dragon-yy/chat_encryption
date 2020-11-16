@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+    <title>Chat Encryption</title>
+{#    <link rel="stylesheet" type="text/css" href="static/css/normalize.css"/>#}
+    <link rel="stylesheet" type="text/css" href="static/css/default.css">
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
+
+    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <link rel="stylesheet" type="text/css" href="static/css/styles.css">
+    <!--[if IE]>
+	<script src="http://libs.baidu.com/html5shiv/3.7/html5shiv.min.js"></script>
+<![endif]-->
+</head>
+<body>
+
+<div class="demo">
+    {% block content %}{% endblock %}
+</div>
+
+
+<script type="text/javascript" src='static/js/stopExecutionOnTimeout.js?t=1'></script>
+<script type="text/javascript" src='static/js/jquery.min.js'></script>
+<script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+<script src="http://pv.sohu.com/cityjson"></script>
+<script type="text/javascript" src="static/js/main.js"></script>
+<script type="text/javascript" src="static/js/socket.io.min.js"></script>
+<script type="text/javascript" src="static/js/jsencrypt.min.js"></script>
+<script type="text/javascript" src="static/js/rsaUtils.js"></script>
+{% block content_js %}
+{% endblock %}
+
+</body>
+</html>

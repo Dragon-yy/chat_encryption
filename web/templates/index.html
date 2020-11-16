@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% if not current_user.is_authenticated %}
+        <script type="text/javascript">
+            console.log('unauthenticated')
+            window.location.href = "{{ url_for('login.login') }}";
+        </script>
+    {% endif %}
+    <svg class="sidebar" viewBox="0 0 300 500">
+        <path class="s-path" fill="#fff" d="M0,0 50,0 a0,250 0 1,1 0,500 L0,500"/>
+    </svg>
+    <div class="static">
+        <div class="static__text">
+            <h id="user">{{ currentUser }}</h>
+        </div>
+    </div>
+    <div class="sidebar-content">
+
+        <div id="users"></div>
+
+        <div class="search">
+            <img src="static/img/t8TeL1S.png" alt="" class="search__img"/>
+            <input id="search" type="text" class="search__input" placeholder="Search"
+                   onkeypress="if(event.keyCode==13) {searchUser(this)}"/>
+        </div>
+    </div>
+
+    <div class="chat">
+        <span class="chat__back"></span>
+        <span class="chat__status">status</span>
+        <div class="chat__person">
+            <span class="chat__online active"></span>
+            <span class="chat__name">Huehue Huehue</span>
+        </div>
+        <div class="chat__messages">
+
+            <div id="chat_msgRow"></div>
+
+        </div>
+{#        <input id="msg" type="text" class="chat__input" placeholder="Your message"#}
+{#               onkeypress="if(event.keyCode==13) {sendMsg(this)}"/>#}
+    <input id="msg" type="text" class="chat__input" placeholder="Your message"/>
+    <button id="submit" type="button" class="chat__submit btn btn-success">发送</button>
+    </div>
+{% endblock content %}
+
+{% block content_js %}
+    <script type="text/javascript" src="static/js/search.js"></script>
+    <script type="text/javascript" src="static/js/chat.js"></script>
+    <script type="text/javascript" src="static/js/account.js"></script>
+{% endblock content_js %}

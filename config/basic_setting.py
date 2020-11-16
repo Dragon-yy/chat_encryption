@@ -1,0 +1,7 @@
+SERVER_PORT = 9000
+SQLALCHEMY_ECHO = False
+DEBUG = False
+
+
+# 爬虫设置
+SCREEN_SHOT = True
